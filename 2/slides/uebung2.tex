@@ -1,0 +1,1722 @@
+\documentclass[12pt,c, german, aspectratio=169]{beamer} % t: top alignment % handout option
+\newcommand{\englishSlides}{}
+%\newcommand\noSolutions{}
+\input{slides}
+\usepackage{pifont}
+\usepackage{tikz}
+\usepackage{comment}
+\usetikzlibrary{arrows}
+\tikzset{
+	treenode/.style = {align=center, inner sep=1pt, text centered,
+		font=\sffamily,circle,draw=black, text width=1.5em},
+	empty/.style = {treenode, rectangle, draw=black,
+		text width=0,minimum width=0.5em, minimum height=0.5em}% arbre rouge noir, nil
+}
+
+\ifdefined\noSolutions
+  \long\def\solution#1{}
+\else
+  \long\def\solution#1{#1}
+\fi
+\newcommand\ifsolution[2]{\ifdefined\noSolutions #2 \else #1 \fi}
+
+
+\title[]{\trans{Übung 2 - Erstes Python Programme}{Exercise Session 2 - First Python Programs}}
+\subtitle[]{\trans{Informatik II}{Computer Science II}}
+\date[]{\trans{Mittwoch, 1. März, 2023}{Wednesday, March 1, 2023}}
+
+\ifdefined\nil\else\newcommand{\nil}{\text{null}}\fi
+
+
+
+%%%%%%%%%%%%%%%%
+
+\begin{document}
+  \titleframe
+
+\begin{frame}{\trans{Heutiges Programm}{Program Today}}
+	\tableofcontents
+\end{frame}
+
+
+%Probably not this wee
+%\section{\trans{Feedback letzte \"Ubung}{Feedback of last exercise}}
+%\sectionframe{}
+
+
+\section{\trans{Repetition Vorlesung}{Repetition of Course Content}}
+\sectionframe{}
+
+\begin{frame}[fragile]{\trans{Variablen}{Variables}}
+\textbf{Dynamic typing:}\footnote{This topic will be covered in depth later in the lecture.} Types exist in Python. They are assigned during program run, not defined by the programmer.
+\vspace{0.5cm}
+
+\begin{minipage}{0.4\linewidth}
+    \textbf{Python}
+
+    \begin{codebox}
+    \beginlst
+    i = 1
+    \end{lstlisting}
+    \end{codebox}
+
+     \begin{codebox}
+    \beginlst
+    d = 1.0
+    \end{lstlisting}
+    \end{codebox}
+
+    \begin{codebox}
+    \beginlst
+    c = 'a'
+    \end{lstlisting}
+    \end{codebox}
+
+    \begin{codebox}
+    \beginlst
+    b = True
+    \end{lstlisting}
+    \end{codebox}
+    
+  \end{minipage}
+  \hfill
+\begin{minipage}{0.4\linewidth}
+  \textbf{C++}
+
+    \begin{codebox}
+    \beginlst
+    int i = 1;
+    \end{lstlisting}
+    \end{codebox}
+
+    \begin{codebox}
+    \beginlst
+    double d = 1;
+    \end{lstlisting}
+    \end{codebox}
+
+    \begin{codebox}
+    \beginlst
+    char c = 'a';
+    \end{lstlisting}
+    \end{codebox}
+
+    \begin{codebox}
+    \beginlst
+    bool b = true;
+    \end{lstlisting}
+    \end{codebox}
+
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.1\linewidth}
+  \end{minipage}
+
+\end{frame}
+
+\begin{comment}
+\begin{codebox}
+\beginlst
+x = 'hello'
+print(x)
+\end{lstlisting}
+\end{codebox}
+\begin{outputbox}
+\texttt{hello}
+\end{outputbox}
+
+\begin{minipage}{0.45\textwidth}
+\begin{codebox}
+\beginlst
+x = 'hello'
+print(x)
+\end{lstlisting}
+\end{codebox}
+\begin{outputbox}
+\texttt{hello}
+\end{outputbox}
+\end{minipage}\hfill\begin{minipage}{0.45\textwidth}
+
+{\fca orange}
+{\fcb blue}
+{\fcc green}
+{\fcd red}
+{\darkred dark red}
+{\bc grey}
+{\black black}
+{\color{white} white}
+
+\pythonkey{keyword}
+\python{code}
+\end{minipage}
+
+\begin{tikzpicture}
+
+\foreach [count = \i from 0] \v in {1, 2, 3}{
+\node[minimum width= 0.8cm, minimum height=0.8cm, draw=black, fill=bc] (n\i) at (\i, 0) {\v}; 
+\node[below = 0.3cm] at (n\i) {\small \i};
+}
+\end{tikzpicture}
+
+\end{comment}
+
+\begin{frame}[fragile]{\trans{Variablen}{Containers}}
+\begin{minipage}{0.5\linewidth}
+  Sequences (ordered)
+  \begin{itemize}
+      \item tuple
+      \item list
+      \item range
+      \item string
+  \end{itemize}
+  %TODO add illustration
+  \end{minipage}
+  \begin{minipage}{0.4\linewidth}
+  Collections (unordered)
+  \begin{itemize}
+      \item set
+      \item dictionary
+  \end{itemize}
+  \vspace{2.65em}
+  %TODO add illustration
+  \end{minipage}
+  \hfill
+\end{frame}
+
+%put some illustrations to the right and animate them here
+\begin{frame}[fragile]{\trans{Variablen}{Container Operations}}
+    
+Number of elements\\
+\vspace{0.1cm}
+    \begin{minipage}{0.4\linewidth}
+        \begin{codebox}
+        \beginlst
+ len(c)
+        \end{lstlisting}
+        \end{codebox}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\linewidth}
+         
+    \end{minipage}
+\\
+\vspace{0.3cm}
+Does c contain x?\\
+\vspace{0.1cm}
+\begin{minipage}{0.4\linewidth}
+        \begin{codebox}
+        \beginlst
+ b = x in c
+        \end{lstlisting}
+        \end{codebox}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\linewidth}
+        
+    \end{minipage}
+\\
+\vspace{0.3cm}
+Iteration over c\\
+\vspace{0.1cm}
+    \begin{minipage}{0.4\linewidth}
+        \begin{codebox}
+        \begin{lstlisting}
+ for x in c:
+     print(x)
+        \end{lstlisting}
+        \end{codebox}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\linewidth}
+         
+    \end{minipage}
+\end{frame}
+
+%This is not very nice. Remove or change it.
+\begin{frame}[fragile]{\trans{Variablen}{Container Operations}}
+\begin{minipage}{0.35\linewidth}
+        \textbf{Python}
+\end{minipage}
+\hfill
+\begin{minipage}{0.55\linewidth}
+         \textbf{C++}
+\end{minipage}\\
+\vspace{0.2cm}
+Number of elements\\
+\vspace{0.1cm}
+    \begin{minipage}{0.35\linewidth}
+        \begin{codebox}
+        \beginlst
+ len(c)
+        \end{lstlisting}
+        \end{codebox}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.55\linewidth}
+         \begin{codebox}
+        \beginlst
+ c.size();
+        \end{lstlisting}
+        \end{codebox}
+    \end{minipage}
+\\
+\vspace{0.3cm}
+Does c contain x?\\
+\vspace{0.1cm}
+\begin{minipage}{0.35\linewidth}
+        \begin{codebox}
+        \beginlst
+ x in c
+        \end{lstlisting}
+        \end{codebox}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.55\linewidth}
+         \begin{codebox}
+        \beginlst
+ std::find(c.begin(), c.end(), x);
+         \end{lstlisting}
+         \end{codebox}
+    \end{minipage}
+\\
+\vspace{0.3cm}
+Iteration over c\\
+\vspace{0.1cm}
+    \begin{minipage}{0.35\linewidth}
+        \begin{codebox}
+        \beginlst
+ for x in c:
+     print(x)
+        \end{lstlisting}
+        \end{codebox}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.55\linewidth}
+         \begin{codebox}
+        \beginlst
+for(int i=0;i<c.size();i++)
+    std::cout << c[i] << "\n";
+        \end{lstlisting}
+         \end{codebox}
+    \end{minipage}
+\end{frame}
+
+\begin{frame}[fragile]{\trans{Variablen}{Quiz}}
+For all questions on this slide, assume:
+\\
+\vspace{0.2cm}
+\begin{tikzpicture}
+\node[] at (-1,0) {c = };
+\foreach [count = \i from 0] \v in {1, 3.14, 7, 'a', True}{
+\node[minimum width= 0.8cm, minimum height=0.8cm, draw=black, fill=bc] (n\i) at (\i, 0) {\v}; 
+\node[below = 0.3cm] at (n\i) {\small \i};
+}
+\end{tikzpicture}
+
+
+\vspace{0.2cm}
+What is the output of the following commands?
+\begin{minipage}{0.4\linewidth}
+\vspace{0.2cm}
+\begin{codebox}
+\begin{lstlisting}
+len(c)
+\end{lstlisting}
+\end{codebox}
+
+\solution{\texttt{5}}
+
+\begin{codebox}
+\begin{lstlisting}
+2 in c
+\end{lstlisting}
+\end{codebox}
+
+\solution{\texttt{False}}
+%\vspace{0.2cm}
+
+\end{minipage}
+\hfill
+\begin{minipage}{0.4\linewidth}
+\vspace{0.2cm}
+\begin{codebox}
+\begin{lstlisting}
+for x in c:
+    print(x)
+\end{lstlisting}
+\end{codebox}
+
+\solution{
+\texttt{1}\\
+\texttt{3.14}\\
+\texttt{7}\\
+\texttt{'a'}\\
+\texttt{True}\\
+}
+
+\end{minipage}
+\hfill
+
+\end{frame}
+
+\begin{frame}[fragile]{\trans{Variablen}{Sequences}}
+\begin{minipage}{0.6\linewidth}
+\vspace{0.2cm}
+\begin{itemize}
+    \item \normalem \textbf{tuple}   {\small\textit{(all objects, immutable)}}
+    %\vspace{-0.2cm}
+        \begin{codebox}
+        \beginlst
+ t = (0, 'a', 3.3)
+        \end{lstlisting}
+        \end{codebox}
+    \item \textbf{list}   {\small\textit{(all objects, mutable)}}
+        \begin{codebox}
+        \beginlst
+ l = [1.0, 5, 'hi', -2]
+        \end{lstlisting}
+        \end{codebox}
+    \item \textbf{range}   {\small\textit{(numbers, immutable)}}
+        \begin{codebox}
+        \beginlst
+ r = range(1,8,2)
+        \end{lstlisting}
+        \end{codebox}
+    \item \textbf{string}   {\small\textit{(characters, immutable)}}
+        \begin{codebox}
+        \beginlst
+ s = "ETH"
+        \end{lstlisting}
+        \end{codebox}
+\end{itemize}
+\end{minipage}
+\hfill
+\begin{minipage}{0.35\linewidth}
+
+\vspace{0.6cm}
+\begin{tikzpicture}
+\node[] at (-1,0) {t = };
+\foreach [count = \i from 0] \v in {0, 'a', 3.3}{
+\node[minimum width= 0.8cm, minimum height=0.8cm, draw=black, fill=bc] (n\i) at (\i, 0) {\v}; 
+\node[below = 0.3cm] at (n\i) {\small \i};
+}
+\end{tikzpicture}
+\vspace{0.5cm}
+\\
+\begin{tikzpicture}
+\node[] at (-1,0) {l = };
+\foreach [count = \i from 0] \v in {1.0, 5, 'hi', -2}{
+\node[minimum width= 0.8cm, minimum height=0.8cm, draw=black, fill=bc] (n\i) at (\i, 0) {\v}; 
+\node[below = 0.3cm] at (n\i) {\small \i};
+}
+\end{tikzpicture}
+\vspace{0.5cm}
+\\
+\begin{tikzpicture}
+\node[] at (-1,0) {r = };
+\foreach [count = \i from 0] \v in {1, 3, 5, 7}{
+\node[minimum width= 0.8cm, minimum height=0.8cm, draw=black, fill=bc] (n\i) at (\i, 0) {\v}; 
+\node[below = 0.3cm] at (n\i) {\small \i};
+}
+\end{tikzpicture}
+\vspace{0.5cm}
+\\
+\begin{tikzpicture}
+\node[] at (-1,0) {s = };
+\foreach [count = \i from 0] \v in {'E', 'T', 'H'}{
+\node[minimum width= 0.8cm, minimum height=0.8cm, draw=black, fill=bc] (n\i) at (\i, 0) {\v}; 
+\node[below = 0.3cm] at (n\i) {\small \i};
+}
+\end{tikzpicture}
+
+\end{minipage}
+
+\end{frame}
+
+\begin{comment}
+\begin{frame}[fragile]{\trans{Variablen}{Quiz}}
+For all questions on this slide, assume:
+\begin{codebox}
+\beginlst
+s = [1, 3.14, 7, 'a', True]
+\end{lstlisting}
+\end{codebox}
+\vspace{0.2cm}
+What is the output of the following commands?
+\begin{minipage}{0.4\linewidth}
+\vspace{0.2cm}
+\begin{codebox}
+\beginlst
+len(s)
+\end{lstlisting}
+\end{codebox}
+\begin{outputbox}
+\beginlst
+5
+\end{lstlisting}
+\end{outputbox}
+
+\begin{codebox}
+\beginlst
+2 in s
+\end{lstlisting}
+\end{codebox}
+\begin{outputbox}
+\beginlst
+False
+\end{lstlisting}
+\end{outputbox}
+%\vspace{0.2cm}
+
+\end{minipage}
+\hfill
+\begin{minipage}{0.4\linewidth}
+\vspace{0.2cm}
+\begin{codebox}
+\beginlst
+for x in s:
+    print(x)
+\end{lstlisting}
+\end{codebox}
+\begin{outputbox}
+\beginlst
+1
+3.14
+7
+'a'
+True
+\end{lstlisting}
+\end{outputbox}
+
+\end{minipage}
+\hfill
+
+\end{frame}
+
+
+{\fca orange}
+{\fcb blue}
+{\fcc green}
+{\fcd red}
+{\darkred dark red}
+{\bc grey}
+{\black black}
+{\color{white} white}
+
+\pythonkey{keyword}
+\python{code}
+
+\begin{tikzpicture}
+
+\foreach [count = \i from 0] \v in {1, 2, 3}{
+\node[minimum width= 0.8cm, minimum height=0.8cm, draw=black, fill=bc] (n\i) at (\i, 0) {\v}; 
+\node[below = 0.3cm] at (n\i) {\small \i};
+}
+\end{tikzpicture}
+\end{comment}
+
+\begin{frame}[fragile]{\trans{Variablen}{Sequence Operations}}
+\begin{itemize}
+    \item Subscript operator
+\begin{codebox}
+\beginlst
+s[i]
+\end{lstlisting}
+\end{codebox}
+
+    \item{Enumeration}
+    \begin{itemize}
+        \item Combine each element with its position.
+    \end{itemize}
+    \vspace{-0.3cm}
+\begin{codebox}
+\beginlst
+for (i,x) in enumerate(s):
+    print(i,x)
+\end{lstlisting}
+\end{codebox}
+
+    \item Zip
+    \begin{itemize}
+        \item Combine two sequences together.
+    \end{itemize}
+    \vspace{-0.3cm}
+\begin{codebox}
+\beginlst
+z = zip(s,t)
+l = list(z)
+\end{lstlisting}
+\end{codebox}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{\trans{Variablen}{Enumeration}}
+\begin{tikzpicture}
+\node[] at (-1,0) {s = };
+\foreach [count = \i from 0] \v in {2, 3, 5, 8, 13}{
+\node[minimum width= 0.8cm, minimum height=0.8cm, draw=black, fill=bc] (n\i) at (\i, 0) {\v}; 
+\node[below = 0.3cm] at (n\i) {\small \i};
+}
+\end{tikzpicture}
+
+
+\begin{codebox}
+\beginlst
+for (i,x) in enumerate(s):
+    print(i,x)
+\end{lstlisting}
+\end{codebox}
+
+\begin{outputbox}
+\beginlst
+    0 2
+    1 3
+    2 5
+    3 8
+    4 13
+\end{lstlisting}
+\end{outputbox}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{\trans{Variablen}{Zip}}
+\begin{tikzpicture}
+\node[] at (-1,0) {s = };
+\foreach [count = \i from 0] \v in {2, 3, 5, 8, 13}{
+\node[minimum width= 0.8cm, minimum height=0.8cm, draw=black, fill=bc] (n\i) at (\i, 0) {\v}; 
+\node[below = 0.3cm] at (n\i) {\small \i};
+}
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\node[] at (-1,0) {t = };
+\foreach [count = \i from 0] \v in {3, 6, 9, 12, 15}{
+\node[minimum width= 0.8cm, minimum height=0.8cm, draw=black, fill=bc] (n\i) at (\i, 0) {\v}; 
+\node[below = 0.3cm] at (n\i) {\small \i};
+}
+\end{tikzpicture}
+
+\begin{codebox}
+\beginlst
+z = zip(s,t)
+l = list(z)
+\end{lstlisting}
+\end{codebox}
+\vspace{0.5cm}
+
+\begin{tikzpicture}
+\node[] at (-1,0) {l = };
+\foreach [count = \i from 0] \v in {(2,3), (3,6), (5,9), (8,12), (13,15)}{
+\node[minimum width= 1.2cm, minimum height=1.2cm, draw=black, fill=bc] (n\i) at (2*\i, 0) {\v}; 
+\node[below = 0.6cm] at (n\i) {\small \i};
+}
+\end{tikzpicture}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{\trans{Variablen}{Slicing}}
+Selecting a subsequence according to the following rules:
+\begin{itemize}
+    \item Start at {\fcc{\textbf{start}}}, End \textbf{before} {\fcd{\textbf{stop}}}, Step size {\fcb{\textbf{step}}}
+\end{itemize}
+
+\begin{codebox}
+\beginlst
+s[start:stop:step]
+s[start:stop] #step = 1
+s[:stop:step] #start = 0
+s[start::step] #stop = len(s)
+\end{lstlisting}
+\end{codebox}
+%Negative {\fcb\textbf{step}}: go backward.
+
+
+%TODO add a slide with only examples and then another onw as a quiz
+%EXAMPLES: also add step size negative
+
+\end{frame}
+
+
+\begin{frame}[fragile]{\trans{Variablen}{Slicing}}
+Selecting a subsequence according to the following rules:
+\begin{itemize}
+    \item Start at {\fcc{\textbf{start}}}, End \textbf{before} {\fcd{\textbf{stop}}}, Step size {\fcb{\textbf{step}}}
+\end{itemize}
+
+\begin{codebox}
+\beginlst
+s[start:stop:step]
+s[start:stop] #step = 1
+s[:stop:step] #start = 0
+s[start::step] #stop = len(s)
+\end{lstlisting}
+\end{codebox}
+%Negative {\fcb\textbf{step}}: go backward.
+
+
+\vspace{0.3cm}
+s[{\fcc \textbf{1}}:{\fcd \textbf{7}}:{\fcb \textbf{2}}]
+\begin{tikzpicture}
+\node[] at (-1,0) {s = };
+\foreach [count = \i from 0] \v in {-9, -8, -7, -6, -5, -4, -3, -2, -1}{
+\node[minimum width= 0.8cm, minimum height=0.8cm, draw=black, fill=bc] (n\i) at (\i, 0) {}; 
+\node[below = 0.3cm] at (n\i) {\small \i};
+%\node[below = 0.7cm] at (n\i) {\small \v};
+}
+\draw [fcc,-{Stealth}](1,-1.8) -- (1,-1);
+\draw [fcd,-{Stealth}](7,-1.8) -- (7,-1);
+\draw[-latex,fcb] (1,-1) arc
+[
+    start angle=-180,
+    end angle=0,
+    x radius=1cm,
+    y radius=0.6cm
+] ;
+\draw[-latex,fcb] (3,-1) arc
+[
+    start angle=-180,
+    end angle=0,
+    x radius=1cm,
+    y radius=0.6cm
+] ;
+
+\end{tikzpicture}
+
+
+%TODO add a slide with only examples and then another onw as a quiz
+%EXAMPLES: also add step size negative
+
+\end{frame}
+
+
+\begin{frame}[fragile]{\trans{Variablen}{Slicing}}
+Selecting a subsequence according to the following rules:
+\begin{itemize}
+    \item Start at {\fcc{\textbf{start}}}, End \textbf{before} {\fcd{\textbf{stop}}}, Step size {\fcb{\textbf{step}}}
+\end{itemize}
+
+\begin{codebox}
+\beginlst
+s[start:stop:step]
+s[start:stop] #step = 1
+s[:stop:step] #start = 0
+s[start::step] #stop = len(s)
+\end{lstlisting}
+\end{codebox}
+Negative {\fcb\textbf{step}}: go backward.
+
+
+\vspace{0.3cm}
+s[{\fcc \textbf{8}}:{\fcd \textbf{4}}:{\fcb \textbf{-1}}]
+\begin{tikzpicture}
+\node[] at (-1,0) {s = };
+\foreach [count = \i from 0] \v in {-9, -8, -7, -6, -5, -4, -3, -2, -1}{
+\node[minimum width= 0.8cm, minimum height=0.8cm, draw=black, fill=bc] (n\i) at (\i, 0) {}; 
+\node[below = 0.3cm] at (n\i) {\small \i};
+%\node[below = 0.7cm] at (n\i) {\small \v};
+}
+\draw [fcc,-{Stealth}](8,-1.8) -- (8,-1);
+\draw [fcd,-{Stealth}](4,-1.8) -- (4,-1);
+\draw[-latex,fcb] (8,-1) arc
+[
+    start angle=0,
+    end angle=-180,
+    x radius=0.5cm,
+    y radius=0.6cm
+] ;
+\draw[-latex,fcb] (7,-1) arc
+[
+    start angle=0,
+    end angle=-180,
+    x radius=0.5cm,
+    y radius=0.6cm
+] ;
+\draw[-latex,fcb] (6,-1) arc
+[
+    start angle=0,
+    end angle=-180,
+    x radius=0.5cm,
+    y radius=0.6cm
+] ;
+
+\end{tikzpicture}
+
+
+%TODO add a slide with only examples and then another onw as a quiz
+%EXAMPLES: also add step size negative
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{\trans{Variablen}{Slicing}}
+Selecting a subsequence according to the following rules:
+\begin{itemize}
+    \item Start at {\fcc{\textbf{start}}}, End \textbf{before} {\fcd{\textbf{stop}}}, Step size {\fcb{\textbf{step}}}
+\end{itemize}
+
+\begin{codebox}
+\beginlst
+s[start:stop:step]
+s[start:stop] #step = 1
+s[:stop:step] #start = 0
+s[start::step] #stop = len(s)
+\end{lstlisting}
+\end{codebox}
+Negative {\fcc\textbf{start}}, {\fcd{stop}}: use negative indexing.
+
+
+\vspace{0.3cm}
+s[{\fcc \textbf{-9}}:{\fcd \textbf{-2}}:{\fcb \textbf{3}}]
+\begin{tikzpicture}
+\node[] at (-1,0) {s = };
+\foreach [count = \i from 0] \v in {-9, -8, -7, -6, -5, -4, -3, -2, -1}{
+\node[minimum width= 0.8cm, minimum height=0.8cm, draw=black, fill=bc] (n\i) at (\i, 0) {}; 
+\node[below = 0.3cm] at (n\i) {\small \i};
+\node[below = 0.7cm] at (n\i) {\small \v};
+}
+\draw [fcc,-{Stealth}](0,-2.1) -- (0,-1.3);
+\draw [fcd,-{Stealth}](7,-2.1) -- (7,-1.3);
+\draw[-latex,fcb] (0,-1.3) arc
+[
+    start angle=-180,
+    end angle=0,
+    x radius=1.5cm,
+    y radius=0.6cm
+] ;
+\draw[-latex,fcb] (3,-1.3) arc
+[
+    start angle=-180,
+    end angle=0,
+    x radius=1.5cm,
+    y radius=0.6cm
+] ;
+
+
+\end{tikzpicture}
+
+
+%TODO add a slide with only examples and then another onw as a quiz
+%EXAMPLES: also add step size negative
+
+\end{frame}
+
+
+%One "how obtain the following output" would suffice I think.
+\begin{frame}[fragile]{\trans{Variablen}{Slicing: Quiz}}
+On this slide, assume:
+\begin{codebox}
+\beginlst
+s = [1, 2, 3, 5, 8, 13, 21, 34, 55]
+\end{lstlisting}
+\end{codebox}
+
+What is the output of the following code?
+\begin{codebox}
+\beginlst
+s[3::5]
+\end{lstlisting}
+\end{codebox}
+
+\solution{
+\texttt{[5, 55]}
+%\vspace{-0.3cm}
+}
+
+How would you slice sequence s to produce the following output?
+\vspace{-0.5cm}
+\begin{codebox}
+\beginlst
+[34, 8, 2]
+\end{lstlisting}
+\end{codebox}
+
+\solution{
+\texttt{s[7::-3], s[7:0:-3], s[-2:-9:-3], and combinations of those}
+}
+
+\end{frame}
+
+%given a specific (longer) list, they should write slices to get different (backwards) sub-lists as code.
+\begin{frame}[fragile]{\trans{Variablen}{Slicing: Quiz}}
+Let us have a sequence s:
+\begin{codebox}
+\beginlst
+s = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O']
+\end{lstlisting}
+\end{codebox}
+How would you slice to produce the following lists?
+
+\begin{minipage}{0.40\linewidth}
+\begin{codebox}
+\beginlst
+['E', 'F', 'G', 'H', 'I']
+['L', 'K', 'J', 'I']
+['C', 'H']
+['O', 'L', 'I', 'F']
+
+
+\end{lstlisting}
+\end{codebox}
+\end{minipage}
+\hfill
+\begin{minipage}{0.55\linewidth}
+\solution{
+\vspace{0.6cm}
+s[4:9]\\
+s[11:7:-1], s[-4:-8:-1]\\
+s[2:8:5], ..., s[2:12:5]\\
+s[14:4:-3], s[14:3:-3], s[14:2:-3], s[-1:-11:-3], s[-1:-12:-3], s[-1:-13:-3]
+}
+\end{minipage}
+
+\end{frame}
+
+%TODO
+
+%TODO
+%Similarly, the range concept could get a coding task as well
+
+
+\begin{frame}[fragile]{\trans{Variablen}{Range}}
+A sequence that starts at {\fcc{\textbf{start}}}, ends \textbf{before} {\fcd{\textbf{stop}}} with step size {\fcb{\textbf{step}}}.
+\begin{codebox}
+\beginlst
+range(start, stop, step)
+range(start, stop) #step = 1
+range(stop) #start = 0, step = 1
+\end{lstlisting}
+\end{codebox}
+\vspace{0.5cm}
+Range is often used in for loops:\\
+\vspace{0.2cm}
+\begin{minipage}{0.45\linewidth}
+    \textbf{Python}
+    \begin{codebox}
+    \beginlst
+for i in range(a, b, c):
+    do_something
+    \end{lstlisting}
+    \end{codebox}
+\end{minipage}
+\hfill
+\begin{minipage}{0.45\linewidth}
+    \textbf{C++}
+    \begin{codebox}
+    \beginlst
+for(int i=a; i<b; i+=c)
+    do_something;
+    \end{lstlisting}
+    \end{codebox}
+\end{minipage}
+\end{frame}
+
+
+\begin{comment}
+\begin{frame}[fragile]{\trans{Variablen}{Tuple}}
+A general immutable sequence.
+\begin{codebox}
+\beginlst
+t = () #empty tuple
+t = (1, ) #tuple with a single element
+t = (1, 2) #tuple with two elements
+t = tuple(range(6)) #tuple from a range
+\end{lstlisting}
+\end{codebox}
+
+TODO: 1. what to do with this, 2. add the swap?
+
+%Swap of elements.
+%Add a codebox; and give output in the outputbox.
+\end{frame}
+\end{comment}
+
+\begin{frame}[fragile]{\trans{Variablen}{Quiz}}
+What is the output of the following code?
+\begin{codebox}
+\beginlst
+tuple(range(3,15,4))
+\end{lstlisting}
+\end{codebox}
+
+\solution{
+\texttt{(3, 7, 11)}
+}
+
+\begin{codebox}
+\beginlst
+tuple(range(19,2,-2)[2:7:3])
+\end{lstlisting}
+\end{codebox}
+
+\solution{
+\texttt{(15, 9)}
+}
+
+How would you generate the following output using one range command?
+Can you think of another range command doing the same? How many are there?
+%\vspace{-0.5cm}
+\begin{codebox}
+\beginlst
+(2019, 2023, 2027)
+\end{lstlisting}
+\end{codebox}
+
+\solution{
+\texttt{range(2019,2028,4), stop can also be 2029, 2030, or 2031}
+}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{\trans{Variablen}{Quiz}}
+How would you generate the following output using one range command?
+\vspace{-0.3cm}
+\begin{codebox}
+\beginlst
+[-12, -6, 0, 6, 12]
+\end{lstlisting}
+\end{codebox}
+\solution{
+range(-12,13,6), ..., range(-12,18,6)
+}
+
+\begin{codebox}
+\beginlst
+[8, 4, 0, -4]
+\end{lstlisting}
+\end{codebox}
+\solution{
+range(8,-5,-4), ..., range(8,-8,-4)
+}
+
+\vspace{0.3cm}
+How would you slice \texttt{range(15,-15,-3)} to get the following output?
+\vspace{-0.3cm}
+\begin{codebox}
+\beginlst
+[-9, -3, 3, 9]
+\end{lstlisting}
+\end{codebox}
+\solution{
+range(15,-15,-3)[8:1:-2], range(15,-15,-3)[-2:1:-2]
+}
+
+\end{frame}
+
+\begin{frame}[fragile]{\trans{Variablen}{Operations on List}}
+\begin{minipage}{0.5\linewidth}
+\begin{itemize}
+    \item Change an element
+\begin{codebox}
+\beginlst
+l[i] = val
+\end{lstlisting}
+\end{codebox}
+
+    \item Append an element
+\begin{codebox}
+\beginlst
+l.append(val)
+\end{lstlisting}
+\end{codebox}
+    
+    \item Remove an element
+\begin{codebox}
+\beginlst
+del l[i]
+\end{lstlisting}
+\end{codebox}
+
+    
+
+\end{itemize}
+\end{minipage}
+\begin{minipage}{0.48\linewidth}
+\begin{itemize}
+\item Reverse the list
+\begin{codebox}
+\beginlst
+l.reverse()
+\end{lstlisting}
+\end{codebox}
+
+    \item List of k elements with value val
+\begin{codebox}
+\beginlst
+l = [val] * k
+\end{lstlisting}
+\end{codebox}
+\end{itemize}
+\vspace{1.4cm}
+\end{minipage}
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{\trans{Variablen}{Quiz}}
+What does list l look like after each step?\\
+\begin{minipage}{0.45\linewidth}
+\begin{codebox}
+\beginlst
+l = [0] * 4
+l[1] = 3
+l.append(5)
+l.reverse()
+del l[3]
+\end{lstlisting}
+\end{codebox}
+
+\end{minipage}
+\begin{minipage}{0.45\linewidth}
+\solution{
+\vspace{0.3cm}
+\texttt{l = [0,0,0,0]}\\
+\texttt{l = [0,3,0,0]}\\
+\texttt{l = [0,3,0,0,5]}\\
+\texttt{l = [5,0,0,3,0]}\\
+\texttt{l = [5,0,0,0]}\\
+}
+\end{minipage}
+\end{frame}
+
+\begin{comment}
+\begin{frame}[fragile]{\trans{Variablen}{List Comprehension}}
+Create a list from a function and a collection.
+\begin{codebox}
+\beginlst
+l = [f(x) for x in c]
+\end{lstlisting}
+\end{codebox}
+
+Equivalent \textbf{C++} code:
+\begin{codebox}
+\beginlst
+std::vector<double> l(c.size());
+for(int i=0;i<c.size();i++)
+{
+    l[i] = f(c[i]);
+}
+\end{lstlisting}
+\end{codebox}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{\trans{Variablen}{List Comprehension}}
+Create a list from a function and a collection.
+\begin{codebox}
+\beginlst
+l = [f(x) for x in c]
+\end{lstlisting}
+\end{codebox}
+\vspace{0.5cm}
+
+\begin{tikzpicture}
+\node[] at (-1,0) {c = };
+\foreach [count = \i from 0] \v in {$c_0$, $c_1$, $c_2$, $c_3$, $c_4$}{
+\node[minimum width= 0.8cm, minimum height=0.8cm, draw=black, fill=bc] (n\i) at (\i, 0) {\v}; 
+\node[below = 0.3cm] at (n\i) {\small \i};
+}
+\end{tikzpicture}
+\vspace{0.5cm}
+
+\begin{tikzpicture}
+\node[] at (-1,0) {l = };
+\foreach [count = \i from 0] \v in {f($c_0$), f($c_1$), f($c_2$), f($c_3$), f($c_4$)}{
+\node[minimum width= 0.8cm, minimum height=0.8cm, draw=black, fill=bc] (n\i) at (\i, 0) {\v}; 
+\node[below = 0.3cm] at (n\i) {\small \i};
+}
+\end{tikzpicture}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{\trans{Variablen}{Quiz}}
+What is the output of the following code?
+\begin{codebox}
+\beginlst
+[x**2 for x in range(2,7)]
+\end{lstlisting}
+\end{codebox}
+
+\solution{
+\texttt{
+[4, 9, 16, 25, 36]
+}
+\vspace{0.4cm}
+}
+
+How can you generate the following list using list comprehension?
+\begin{codebox}
+\beginlst
+[1, 2, 4, 8, 16, 32, 64, 128]
+\end{lstlisting}
+\end{codebox}
+
+\solution{
+\texttt{
+[2**x for x in range(8)]
+}
+}
+\end{frame}
+
+
+\begin{frame}[fragile]{\trans{Variablen}{Filtered List Comprehension}}
+\begin{codebox}
+\beginlst
+l = [f(x) for x in c if b(x)]
+\end{lstlisting}
+\end{codebox}
+
+Equivalent \textbf{C++} code:
+\begin{codebox}
+\beginlst
+std::vector<double> l;
+for(int i=0;i<c.size();i++)
+{
+    if(b(x[i]))
+    {
+        l.push_back(f(c[i]));
+    }
+}
+\end{lstlisting}
+\end{codebox}
+\end{frame}
+
+
+\begin{frame}[fragile]{\trans{Variablen}{Filtered List Comprehension}}
+\begin{codebox}
+\beginlst
+l = [f(x) for x in c if b(x)]
+\end{lstlisting}
+\end{codebox}
+\vspace{0.5cm}
+
+\begin{tikzpicture}
+\node[] at (-1,0) {c = };
+\foreach [count = \i from 0] \v in {$c_0$, $c_1$, $c_2$, $c_3$, $c_4$}{
+\node[minimum width= 0.8cm, minimum height=0.8cm, draw=black, fill=bc] (n\i) at (\i, 0) {\v}; 
+\node[below = 0.3cm] at (n\i) {\small \i};
+}
+\end{tikzpicture}
+\vspace{0.5cm}
+
+\begin{tikzpicture}
+\node[] at (-1,0) {b(x): };
+\foreach [count = \i from 0] \v in {$T$, $T$, $F$, $T$, $F$}{
+\node[minimum width= 0.8cm, minimum height=0.8cm, draw=black, fill=bc] (n\i) at (\i, 0) {\v}; 
+\node[below = 0.3cm] at (n\i) {\small \i};
+}
+\end{tikzpicture}
+\vspace{0.5cm}
+
+
+\begin{tikzpicture}
+\node[] at (-1,0) {l = };
+\foreach [count = \i from 0] \v in {f($c_0$), f($c_1$), f($c_3$)}{
+\node[minimum width= 0.8cm, minimum height=0.8cm, draw=black, fill=bc] (n\i) at (\i, 0) {\v}; 
+\node[below = 0.3cm] at (n\i) {\small \i};
+}
+\end{tikzpicture}
+\end{frame}
+
+
+\begin{frame}[fragile]{\trans{Variablen}{Quiz}}
+What is the output of the following code?
+\begin{codebox}
+\beginlst
+[x**3 for x in range(6) if x%2==1]
+\end{lstlisting}
+\end{codebox}
+
+\solution{
+\texttt{
+[1, 27, 125]
+}
+}
+
+How can you generate the following lists using list comprehension?
+\begin{codebox}
+\beginlst
+[25, 16, 9, 4, 4, 9, 16, 25]
+\end{lstlisting}
+\end{codebox}
+
+\solution{
+\texttt{
+[x**2 for x in range(-5,6) if x**2 > 2] #or x**2>1, x**2>3
+}
+}
+\end{frame}
+
+\begin{frame}[fragile]{\trans{Variablen}{Collections}}
+\begin{minipage}{0.8\linewidth}
+\vspace{0.2cm}
+\begin{itemize}
+    \item \normalem \textbf{set}
+    %\vspace{-0.2cm}
+        \begin{codebox}
+        \beginlst
+ s = {1, 6, 2, 7}
+        \end{lstlisting}
+        \end{codebox}
+        \textbf{C++} equivalents: \texttt{std::set}, \texttt{std::unordered\_set}
+        \vspace{0.5cm}
+        
+    \item \textbf{dictionary (dict)}  {\small\textit{key:value}}
+        \begin{codebox}
+        \beginlst
+d = {1:3, 6:2, 2:6, 7:5}
+        \end{lstlisting}
+        \end{codebox}
+        \textbf{C++} equivalents: \texttt{std::map}, \texttt{std::unordered\_map}
+\end{itemize}
+% d = {"Basel":3000,"Bern":4000,"Aarau":5000}
+\end{minipage}
+\hfill
+\begin{minipage}{0.15\linewidth}
+\end{minipage}
+
+\end{frame}
+
+\begin{frame}[fragile]{\trans{Variablen}{Dict Operations}}
+Dictionary consists of pairs \texttt{key:val}\\
+\begin{codebox}
+\beginlst
+d = {"Banana":2.4, "Apple":3.2, "Orange":3.6}
+\end{lstlisting}
+\end{codebox}
+\vspace{0.3cm}
+\begin{minipage}{0.4\linewidth}
+  \begin{itemize}
+      \item Access item
+      \begin{codebox}
+      \beginlst
+d[key]
+      \end{lstlisting}
+      \end{codebox}
+      \item Insert item
+      \begin{codebox}
+      \beginlst
+d[key] = val
+      \end{lstlisting}
+      \end{codebox}
+      \item Update item
+      \begin{codebox}
+      \beginlst
+d[key] = val
+      \end{lstlisting}
+      \end{codebox}
+  \end{itemize}
+  \end{minipage}
+  \begin{minipage}{0.4\linewidth}
+  \begin{itemize}
+  \item Find key
+      \begin{codebox}
+      \beginlst
+key in d
+      \end{lstlisting}
+      \end{codebox}
+      \item Delete key
+      \begin{codebox}
+      \beginlst
+del d[key]
+      \end{lstlisting}
+      \end{codebox}
+  \end{itemize}
+  \vspace{2.65em}
+  \end{minipage}
+  \hfill
+\end{frame}
+
+
+\begin{frame}[fragile]{\trans{Variablen}{Dict Iteration}}
+\vspace{-0.2cm}
+\begin{codebox}
+\beginlst
+d = {"Banana":2.4, "Apple":3.2, "Orange":3.6}
+\end{lstlisting}
+\end{codebox}
+\begin{minipage}{0.6\linewidth}
+\begin{itemize}
+      \item over keys
+      \begin{codebox}
+      \beginlst
+for key in d.keys():
+    print(key)
+      \end{lstlisting}
+      \end{codebox}
+      
+      \item over values
+      \begin{codebox}
+      \beginlst
+for val in d.values():
+    print(val)
+      \end{lstlisting}
+      \end{codebox}
+
+      \item over pairs
+      \begin{codebox}
+      \beginlst
+for key, val in d.items():
+    print(str(key)+" "+str(val))
+      \end{lstlisting}
+      \end{codebox}
+\end{itemize}
+\end{minipage}
+\begin{minipage}{0.3\linewidth}
+\vspace{0.5cm}
+ \begin{outputbox}
+    \beginlst
+    Banana
+    Apple
+    Orange
+    \end{lstlisting}
+ \end{outputbox}
+
+ \begin{outputbox}
+    \beginlst
+    2.4
+    3.2
+    3.6
+    \end{lstlisting}
+ \end{outputbox}
+
+ \begin{outputbox}
+    \beginlst
+    Banana 2.4
+    Apple 3.2
+    Orange 3.6
+    \end{lstlisting}
+ \end{outputbox}
+\end{minipage}
+\end{frame}
+
+\begin{frame}[fragile]{\trans{Variablen}{Dict From Two Lists}}
+List \texttt{k} of keys, \texttt{v} of values:
+\begin{codebox}
+\beginlst
+d = dict(zip(k,v))
+\end{lstlisting}
+\end{codebox}
+Example:
+\begin{codebox}
+\beginlst
+stadt = ["Zurich", "Basel", "Bern"]
+plz = [8000, 3000, 4000]
+d = dict(zip(stadt,plz))
+\end{lstlisting}
+\end{codebox}
+ \begin{outputbox}
+\beginlst
+{'Zurich': 8000, 'Basel': 3000, 'Bern': 4000}
+\end{lstlisting}
+ \end{outputbox}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{\trans{Variablen}{Quiz}}
+Assume the following two lists:
+\begin{codebox}
+\beginlst
+brand = ["Lindt", "Cailler", "Frey"]
+cost = [3.2, 2.5, 2.0]
+\end{lstlisting}
+\end{codebox}
+
+What does dict d look like after each step?\\
+\vspace{-0.2cm}
+\begin{codebox}
+\beginlst
+d = dict(zip(brand,cost))
+d["Halba"] = 1.9
+d["Frey"] = 2.1
+del d["Cailler"]
+\end{lstlisting}
+\end{codebox}
+
+\solution{
+%\vspace{-0.2cm}
+\texttt{\{'Lindt': 3.2, 'Cailler': 2.5, 'Frey': 2.0\}}\\
+\texttt{\{'Lindt': 3.2, 'Cailler': 2.5, 'Frey': 2.0, 'Halba': 1.9\}}\\
+\texttt{\{'Lindt': 3.2, 'Cailler': 2.5, 'Frey': 2.1, 'Halba': 1.9\}}\\
+\texttt{\{'Lindt': 3.2, 'Frey': 2.1, 'Halba': 1.9\}}
+}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{\trans{Variablen}{Dict Comprehension}}
+Create a dict from a collection and two functions
+\begin{codebox}
+\beginlst
+d = {f(x):g(x) for x in c}
+\end{lstlisting}
+\end{codebox}
+Equivalent \textbf{C++} code:
+\begin{codebox}
+\beginlst
+std::unordered_map<double, double> d;
+for(int i=0;i<c.size();i++)
+{
+    d[f(c[i])] = g(c[i]);
+}
+\end{lstlisting}
+\end{codebox}
+\end{frame}
+
+
+\begin{frame}[fragile]{\trans{Variablen}{Dict Comprehension}}
+Create a dict from a collection and two functions
+\begin{codebox}
+\beginlst
+d = {f(x):g(x) for x in c}
+\end{lstlisting}
+\end{codebox}
+
+Example:
+\begin{codebox}
+\beginlst
+{(x**2):(x**3) for x in range(1,5)}
+\end{lstlisting}
+\end{codebox}
+\begin{outputbox}
+\beginlst
+{1: 1, 4: 8, 9: 27, 16: 64}
+\end{lstlisting}
+\end{outputbox}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{\trans{Variablen}{Dict Comprehension}}
+With filter \texttt{b(x)}
+\begin{codebox}
+\beginlst
+d = {f(x):g(x) for x in c if b(x)}
+\end{lstlisting}
+\end{codebox}
+
+From two collections \texttt{cx, cy}
+\begin{codebox}
+\beginlst
+d = {f(x):g(y) for x, y in zip(cx, cy)}
+\end{lstlisting}
+\end{codebox}
+
+From another dictionary \texttt{d0}
+\begin{codebox}
+\beginlst
+d = {f(k):g(v) for k, v in d0.items()}
+\end{lstlisting}
+\end{codebox}
+
+\end{frame}
+
+\begin{frame}[fragile]{\trans{Variablen}{Quiz}}
+What is the output of the following code?
+
+How can you generate the following dictionaries using dict comprehension?
+\end{frame}
+\end{comment}
+
+\section{\trans{Exceptions}{Exceptions}}
+    \sectionframe{}
+        
+     \begin{frame}{\trans{Beispiel}{Example}}
+        \begin{itemize}
+          \item \trans
+          {Exceptions werden ausgelöst, wenn das Programm syntaktisch korrekt ist, der Code jedoch zu einem Fehler geführt hat.}
+          {Exceptions are raised when the program is syntactically correct but the code resulted in an error.}
+          \item \trans
+          {Einige der am häufigsten vorkommenden Exceptions umfassen \textbf{IndexError}, \textbf{ImportError}, \textbf{IOError}, \textbf{ZeroDivisionError}, \textbf{TypeError}, and \textbf{FileNotFoundError}}
+          {Some of the standard exceptions which are most frequent include \textbf{IndexError}, \textbf{ImportError}, \textbf{IOError}, \textbf{ZeroDivisionError}, \textbf{TypeError}, and \textbf{FileNotFoundError}.}
+           \item \trans
+          {Das folgende Beispiel löst eine \textbf{ZeroDivisionError} Exception aus, da wir versuchen, eine Zahl durch 0 zu teilen.}
+          {Following example raises a \textbf{ZeroDivisionError} exception, as we are trying to divide a number by 0.}
+          \\
+          \vspace{0.3cm}
+          \begin{tikzpicture}
+            \node[anchor=south west,inner sep=0] at (0,0) {\includegraphics[width=1.0\linewidth]{img/division-by-zero.png}};
+          \end{tikzpicture}
+          \\
+          \vspace{0.1cm}
+          \begin{tikzpicture}
+            \node[anchor=south west,inner sep=0] at (0,0) {\includegraphics[width=1.0\linewidth]{img/exception.png}};
+          \end{tikzpicture}
+        \end{itemize}
+      \end{frame}
+      
+       \begin{frame}{\trans{Behandlung von Exceptions}{Exception Handling}}
+        \begin{itemize}
+          \item \trans
+          {Wir können \textbf{Try}- und \textbf{Except}-Klauseln verwenden, um Exceptions zu behandeln.}
+          {We can use \textbf{try} and \textbf{except} clauses to handle exceptions.}
+           \item \trans
+           {Eine try-Anweisung kann mehr als eine except-Klausel haben, um Handler für verschiedene Exceptions anzugeben.}
+           {A try statement can have more than once except clause, to specify handlers for different exceptions.}
+           \item \trans
+           {Es wird jedoch höchstens ein Handler ausgeführt.}
+           {However, at most one handler will be executed.}
+            \\
+          \vspace{0.3cm}
+          \begin{tikzpicture}
+            \node[anchor=south west,inner sep=0] at (0,0) {\includegraphics[width=1.0\linewidth]{img/try-except.png}};
+          \end{tikzpicture}
+          {\footnotesize \textbf{Output:}}
+           \\
+            \vspace{0.1cm}
+          \begin{tikzpicture}
+            \node[anchor=south west,inner sep=0] at (0,0) {\includegraphics[width=1.0\linewidth]{img/try-except-output.png}};
+          \end{tikzpicture}
+        \end{itemize}
+      \end{frame}
+      
+      \begin{frame}{\trans{Finally}{Finally}}
+        \begin{itemize}
+          \item \trans
+          {\textbf{finally} definiert Code, der immer nach einem Try-and-Except-Block ausgeführt wird, unabhängig davon, ob eine Exception ausgelöst wird oder nicht.}
+          {\textbf{finally} defines code that is always executed after a try and except block, independently if an exception is raised or not.}
+           \\
+          \vspace{0.3cm}
+          \begin{tikzpicture}
+            \node[anchor=south west,inner sep=0] at (0,0) {\includegraphics[width=1.0\linewidth]{img/finally.png}};
+          \end{tikzpicture}
+          {\footnotesize \textbf{Output:}}
+           \\
+            \vspace{0.1cm}
+          \begin{tikzpicture}
+            \node[anchor=south west,inner sep=0] at (0,0) {\includegraphics[width=1.0\linewidth]{img/finally-output.png}};
+          \end{tikzpicture}
+        \end{itemize}
+      \end{frame}
+      
+      \begin{frame}{\trans{Benutzerdefinierte Exceptions}{User-Defined Exceptions}}
+        \begin{itemize}
+          \item \trans
+          {Man kann seine eigenen Exceptions erstellen, indem man eine neue Klasse erstellt.}
+          {You can create your own exceptions by creating a new class.}
+          \item \trans
+          {Neue Exceptions müssen von der Klasse \textbf{Exception} abgeleitet werden.}
+          {New exceptions must derive from the \textbf{Exception} class.}
+           \\
+          \vspace{0.3cm}
+          \begin{tikzpicture}
+            \node[anchor=south west,inner sep=0] at (0,0) {\includegraphics[width=1.0\linewidth]{img/custom.png}};
+          \end{tikzpicture}
+          {\footnotesize \textbf{Output:}}
+           \\
+            \vspace{0.1cm}
+          \begin{tikzpicture}
+            \node[anchor=south west,inner sep=0] at (0,0) {\includegraphics[width=1.0\linewidth]{img/custom-output.png}};
+          \end{tikzpicture}
+        \end{itemize}
+      \end{frame}
+
+
+
+\section{\trans{In-class Exercises}{In-class Exercises}}
+\sectionframe{}
+
+\begin{frame}[fragile]{\trans{Variablen}{Reading user input}}
+\begin{codebox}
+\beginlst
+word = input("Enter a word : ")
+\end{lstlisting}
+\end{codebox}
+\begin{itemize}
+    \item This code writes a text "\texttt{Enter a word : }" on a console and waits for user input.
+    \item After the user enters some text, it is stored into variable \texttt{word} as data type string.
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{\trans{Variablen}{Reading user input in a loop}}
+\begin{codebox}
+\beginlst
+word = input("Enter a word : ")
+  again = True
+  while again:
+    #Do something with word...
+    word = input("Enter a word (or just <ENTER> to stop): ")
+    again = len(word) > 0
+\end{lstlisting}
+\end{codebox}
+\begin{itemize}
+    \item This code sequentially reads strings from user, and processes them.
+    \item If the user enters an empty string, the program terminates.
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{\trans{Variablen}{In-class exercise: Palindrome}}
+
+A \textbf{palindrome} is a word that is spelt the same way backwards and forwards.
+\vspace{0.5cm}
+
+Write a python program that: 
+\begin{itemize}
+    \item Sequentially reads words (possibly containing spaces) from user input.
+    \item For each word, the program prints whether the word is a palindrome.
+    \item If the user enters an empty string, the program terminates.
+\end{itemize}
+Go to CodeExpert - Code Examples - Exercise 2 - In-class
+\vspace{0.5cm}
+
+\textbf{Hint:} a string is a sequence. All sequence operations can be applied to it.
+
+\end{frame}
+
+\begin{frame}[fragile]{\trans{Variablen}{In-class exercise: Count of numbers above average}}
+Write a python program with the following input, and output:\footnote{Do this exercise if there is spare time.}
+
+\textbf{Input:} A list \texttt{s} of numbers.\\
+\textbf{Output:} The count of numbers in list \texttt{s} that are strictly larger than the average value.
+
+\vspace{0.2cm}
+\textbf{Example:}
+\texttt{s = [1,1,2,3,4,1]}\\
+The average value in list \texttt{s} is equal to 2. There are two numbers in \texttt{s} that are larger than 2: 3, and 4. Therefore, the output should be 2.
+
+\end{frame}
+
+
+
+\section{Homework}
+\sectionframe{}
+
+\begin{frame}[fragile]{\trans{Variablen}{Exercise 1: Python I}}
+
+On https://expert.ethz.ch/mycourses/SS23/mavt2/exercises
+\begin{itemize}
+    \item Sum and Maximum
+    \item List Comprehension
+    \item Dict Comprehension
+    \item Crops \& Dictionaries
+\end{itemize}
+Due date: Monday 06.03.2023, 20:00 CET\\
+%\vspace{0.5cm}
+\textbf{NO HARDCODING}
+
+\end{frame}
+
+
+{
+\setbeamercolor*{frametitle}{bg=textbg}
+\begin{frame}
+	\begin{center}
+	\Huge{\trans{Fragen?}{Questions?}}
+	\end{center}
+\end{frame}
+}
+
+\end{document}

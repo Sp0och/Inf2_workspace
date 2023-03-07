@@ -1,0 +1,137 @@
+\documentclass[12pt,c, german, aspectratio=169]{beamer} % t: top alignment % handout option
+\newcommand{\englishSlides}{}
+%\newcommand\noSolutions{}
+\input{slides}
+\usepackage{pifont}
+\usepackage{tikz}
+\usepackage{comment}
+\usetikzlibrary{arrows}
+\tikzset{
+	treenode/.style = {align=center, inner sep=1pt, text centered,
+		font=\sffamily,circle,draw=black, text width=1.5em},
+	empty/.style = {treenode, rectangle, draw=black,
+		text width=0,minimum width=0.5em, minimum height=0.5em}% arbre rouge noir, nil
+}
+
+\ifdefined\noSolutions
+  \long\def\solution#1{}
+\else
+  \long\def\solution#1{#1}
+\fi
+\newcommand\ifsolution[2]{\ifdefined\noSolutions #2 \else #1 \fi}
+
+
+\title[]{\trans{Übung 2 - Erstes Python Programme}{Additional Slides week 2 - Lasse Fierz}}
+\subtitle[]{\trans{Informatik II}{Computer Science II}}
+\date[]{\trans{Mittwoch, 1. März, 2023}{Wednesday, March 1, 2023}}
+
+\ifdefined\nil\else\newcommand{\nil}{\text{null}}\fi
+
+
+
+%%%%%%%%%%%%%%%%
+
+\begin{document}
+  \titleframe
+
+
+
+%Probably not this wee
+%\section{\trans{Feedback letzte \"Ubung}{Feedback of last exercise}}
+%\sectionframe{}
+\begin{frame}
+    No guarantee of correctness
+
+\end{frame}
+
+
+\section{\trans{String Formattierungen}{String Formatting}}
+\sectionframe{}
+
+\begin{frame}[fragile]{\trans{Alte String Formattierung}{Old String Formatting}}
+Old way of formatting strings: 
+\vspace{0.5cm}
+
+\textbf{"Normal, comma separated"}
+
+    \begin{codebox}
+    \beginlst
+    name = "Peter"
+    print("Hello", name) #Hello Peter
+    \end{lstlisting}
+    \end{codebox}
+    Personally I still use this for quick prints.
+    \vspace*{0.5cm}
+
+\textbf{String addition}
+\begin{codebox}
+    \beginlst
+    print("Hello " + name) #Hello Peter
+    \end{lstlisting}
+    \end{codebox}
+
+\end{frame}
+
+\begin{frame}[fragile]{\% Operator Formatting (Old way)}
+    \begin{codebox}
+    \beginlst
+    print("Hello \% s" \%"Peter") #Hello Peter
+    \end{lstlisting}
+    \end{codebox}
+    \textbf{Achtung wichtig}: Without the \textbackslash \hspace{1cm}(Latex stuff...)\\
+    Here for strings \%s but for e.g. int \%d
+    \vspace{1cm}\\
+    Outdated because it's annoying for long strings with many inputs.
+\end{frame}
+
+\begin{frame}[fragile]{\trans{String.format}{String.format (python 3+)}}
+    \textbf{string.format}
+
+    \begin{codebox}
+    \beginlst
+    name = "Peter"
+    age = 20
+    print("Hello {} your age is {}".format(name,age)) 
+    # Hello Peter your age is 20
+    \end{lstlisting}
+    \end{codebox}
+    Also possible with indexes:
+    \begin{codebox}
+    \beginlst
+    name = "Peter"
+    age = 20
+    print("Hello {1} your age is {0}".format(age,name)) 
+    # Hello Peter your age is 20
+    \end{lstlisting}
+    \end{codebox}
+    
+    
+    
+
+
+\end{frame}
+\begin{frame}[fragile]{fstring Formatting (Python 3.6+)}
+    \textbf{fstring}
+ 
+    \begin{codebox}
+    \beginlst
+    name = "Peter"
+    age = 20
+    printf("Hello {name} your age is {age}") 
+    # Hello Peter your age is 20
+    \end{lstlisting}
+    \end{codebox}
+    fstrings allow for very powerful formatting:
+    \begin{codebox}
+    \beginlst
+    a = 1
+    b = 3
+    printf("a + b is  {a+b}.")  # a + b is 4.
+    
+    \end{lstlisting}
+    \end{codebox}
+    For more advanced usecases check the official documentation.\\
+    Note that any method mentioned here is still valid however best practice would be to use fstrings or .format.
+\end{frame}
+
+\end{document}
